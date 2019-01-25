@@ -1,0 +1,16 @@
+zuul:
+  ignored-headers:
+  -Access-Control-Allow-Credentials:
+  - Access-Control-Allow-Origin
+
+server:
+  port: 8089
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:8080"
+            allowedMethods:
+            - GET

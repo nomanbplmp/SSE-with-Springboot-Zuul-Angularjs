@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<script src="/hello/angular.min.js"></script>
+<script type="text/javascript">
+
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope,$http) {
+  $scope.data = {};
+  $scope.tick="";
+  
+  const eventSource = new EventSource('http://localhost:8089/ticks'); 
+  eventSource.onmessage=function(event) {
+	  const msg = JSON.parse(event.data);
+	  $scope.tick=msg.id;
+	  $scope.$apply();
+	};
+  
+  
+  $scope.call = function(){
+    	
+    var data = {name:"hello", age:2}
+    
+     $http.post('serv/show/334', data, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).success(function (response) {
+        return response;
+    });
+    
+    
+    	
+    };
+    
+    $scope.jsonCheck = function(){
+    	
+    	  $http.get('serv/show/json').success(function (response) {
+    	      $scope.data = response;  
+    		  return response;
+    	    });
+    	
+    }
+    
+    
+    $scope.firstName= "John";
+    $scope.lastName= "Doe";
+});
+</script>
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl">
+  <p>Name: <input type="text" ng-model="firstName"></input></p>
+  <a ng-href='#here' ng-click='call()' >click me</a>
+    <a ng-href='#here' ng-click='jsonCheck()' >jsonCheck</a>
+  <p ng-bind="firstName"></p>
+    <p >'{{data.name}}</p> {{tick}}
+</div>
+
+</body>
+</html>
