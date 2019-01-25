@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.nk.web</groupId>
-	<artifactId>service1</artifactId>
+	<artifactId>micro-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>service1</name>
 	<description>Demo project for Spring Boot</description>
