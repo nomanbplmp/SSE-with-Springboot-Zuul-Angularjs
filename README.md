@@ -41,7 +41,7 @@ public class SSEController {
 
     emitter.onCompletion(() -> this.emitters.remove(emitter));
     emitter.onTimeout(() -> this.emitters.remove(emitter));
-
+ // Mocking events with non stoppping thread
     new Thread(()-> {
     	while(true) {
     		try {
@@ -58,20 +58,13 @@ public class SSEController {
     return emitter;
   }
 
+// Recevieve Application Event and broadcast to all clients
   @EventListener
   public void onTick(TickInfo tickInfo) {
     List<SseEmitter> deadEmitters = new ArrayList<>();
     this.emitters.forEach(emitter -> {
       try {
         emitter.send(tickInfo);
-
-        // close connnection, browser automatically reconnects
-        // emitter.complete();
-
-        // SseEventBuilder builder = SseEmitter.event().name("second").data("1");
-        // SseEventBuilder builder =
-        // SseEmitter.event().reconnectTime(10_000L).data(memoryInfo).id("1");
-        // emitter.send(builder);
       }
       catch (Exception e) {
         deadEmitters.add(emitter);
