@@ -1,10 +1,10 @@
-# AngularJs Springboot Zull SSE
-#Sample application to create SSE through Zuul proxy.
+# AngularJs Springboot Zuul SSE
+##Sample application to create event streaming to a webclient with Springboot microservice &  Zuul  proxy.
 
 ** Components **
 
-1. Web client build with Html and AngularJs.
-   On load client subscribe to Server sent events at endpoint  /ticks.
+1. Web client using Html and AngularJs.
+   On load client subscribe to Server sent events endpoint.
    
    
  ``` const eventSource = new EventSource('http://localhost:8089/ticks'); 
@@ -16,7 +16,7 @@
 ```
   
   
- Received Event Data is upused to update $scope.tick.  Ticks are displayed in html as mentioned below
+ Received Event Data is updated in $scope.tick.  Ticks are displayed in html as mentioned below
  <code>"{{tick}}</code> 
  
  2. **Java Mircroservice Application**
