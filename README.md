@@ -7,12 +7,13 @@
    On load client subscribe to Server sent events at endpoint  /ticks.
    
    
- <code>  const eventSource = new EventSource('http://localhost:8089/ticks'); 
+ ``` const eventSource = new EventSource('http://localhost:8089/ticks'); 
   eventSource.onmessage=function(event) {
 	  const msg = JSON.parse(event.data);
 	  $scope.tick=msg.id;
 	  $scope.$apply();
-	}; </code>
+	}; 
+```
   
   
  Received Event Data is upused to update $scope.tick.  Ticks are displayed in html as mentioned below
@@ -84,6 +85,40 @@ public class SSEController {
 
 
 
-3. Gatway application using ZUUL proxy
+3. Gatway application using ZUUL proxy with Springboot
+    Zuul proxy to route request to microservices
+    
+    Route is created as bean
+    ```
+    @Bean
+	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
+		return builder.routes()
+			.route("hello", r -> r.path("/hello")
+				.uri("http://localhost:8090/hello"))
+			.route("ticks", r->r.path("/ticks")
+			    .uri("http://localhost:8090/ticks"))
+				.build();
+	}
+    ```
+ and application.yaml with config
+ 
+```
+zuul:
+  ignored-headers:
+  -Access-Control-Allow-Credentials:
+  - Access-Control-Allow-Origin
 
+server:
+  port: 8089
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:8080"
+            allowedMethods:
+            - GET
+
+```
  
